@@ -71,7 +71,7 @@ void loop() {
       
       if (count == NUM_SERVOS) {
         for (int i = 0; i < NUM_SERVOS; i++) {
-          int angle = constrain(angles[i], 0, 90);
+         const int angle = constrain(angles[i], 0, 180);
           servos[i].write(angle);
           currentAngles[i] = angle;
         }

@@ -129,23 +129,36 @@ ARDUINO_SERIAL_PORT = "COM7"
 ARDUINO_BAUDRATE = 115200
 
 # Servo mekanik açı sınırları (Derece)
+# AÇIK = SERVO_MIN_DEG, KAPALI = SERVO_MAX_DEG
 SERVO_MIN_DEG = 0
-SERVO_MAX_DEG = 90
+SERVO_MAX_DEG = 180   # Fiziksel mekanik tam kapanma için ihtiyaç duyulan açı
+
+# ==============================================================================
+# PARMAK BAZLI KALİBRASYON
+# ==============================================================================
+# Her parmak için ayrı AÇIK (min) ve KAPALI (max) açı tanımlayabilirsiniz.
+# Sıra: [Başparmak, İşaret, Orta, Yüzük, Serçe]
+#
+# Örnek: Başparmak 0→150, diğerleri 0→180 ise:
+#   SERVO_FINGER_MIN = [0,   0,   0,   0,   0  ]
+#   SERVO_FINGER_MAX = [150, 180, 180, 180, 180 ]
+#
+# BAŞLANGIÇ: Hepsini aynı tutun, mekanik teste göre ince ayar yapın.
+SERVO_FINGER_MIN = [0,   0,   0,   0,   0  ]
+SERVO_FINGER_MAX = [180, 180, 180, 180, 180]
 
 # Güvenlik: Tek bir pakette (frame) bir servo en fazla kaç derece hareket edebilir?
 # Ani zıplamaları engelleyerek mekanik hasarı önler. (0 = limit yok)
-SERVO_MAX_STEP_DEG = 0  # Test: limit yok (eskisi 5 idi)
+SERVO_MAX_STEP_DEG = 0
 
 # Servo pin atamaları (Arduino tarafında kullanılacak referans sıra)
 # Sıra: [Thumb, Index, Middle, Ring, Pinky]
 SERVO_PINS = [3, 5, 6, 9, 10]
 
 # Servo invert ayarı (Her parmak için motorun fiziksel dönüş yönünü ters çevirir)
-# Varsayılan: OPEN = 0°, CLOSED = 90°
+# Varsayılan: OPEN = min°, CLOSED = max°
 SERVO_INVERT = [False, False, False, False, False]
 
 # Başlangıç ve Nötr pozisyon açıları
 # Sistem ilk açıldığında veya bağlantı koptuğunda bu açılara dönülür.
 SERVO_NEUTRAL_ANGLES = [0, 0, 0, 0, 0]
-
-

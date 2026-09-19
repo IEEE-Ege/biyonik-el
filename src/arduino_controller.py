@@ -56,16 +56,23 @@ class ArduinoBaseController(ControllerInterface):
         """Hedefleri alir, step limitini uygular, guncel acilari hesaplar ve gonderir."""
         if not self._connected: return
         self._last_state = state
-        
-        targets = state.targets() # [thumb, index, middle, ring, pinky]
-        angles = state.servo_angles(cfg.SERVO_MIN_DEG, cfg.SERVO_MAX_DEG)
-        
+
+        targets = state.targets()  # [thumb, index, middle, ring, pinky] — 0.0=açık, 1.0=kapalı
+
         updated = False
         for i, n in enumerate(self.FINGER_NAMES):
             self._targets[n] = targets[i]
-            target_angle = angles[n]
+
+            # Parmak bazlı kalibrasyon: her parmağın kendi min/max açısı
+            f_min = cfg.SERVO_FINGER_MIN[i]
+            f_max = cfg.SERVO_FINGER_MAX[i]
+            target_angle = int(f_min + targets[i] * (f_max - f_min))
+
+            # Clamp (güvenlik)
+            target_angle = int(np.clip(target_angle, f_min, f_max))
+
             current_angle = self._servo_angles[n]
-            
+
             # Step limiti (Safety)
             if cfg.SERVO_MAX_STEP_DEG > 0:
                 diff = target_angle - current_angle
@@ -76,10 +83,9 @@ class ArduinoBaseController(ControllerInterface):
                     new_angle = target_angle
             else:
                 new_angle = target_angle
-                
-            # Clamp
-            new_angle = int(np.clip(new_angle, cfg.SERVO_MIN_DEG, cfg.SERVO_MAX_DEG))
-            
+
+            new_angle = int(np.clip(new_angle, f_min, f_max))
+
             if self._servo_angles[n] != new_angle:
                 self._servo_angles[n] = new_angle
                 updated = True
