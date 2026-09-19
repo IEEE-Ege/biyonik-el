@@ -493,7 +493,7 @@ SERVO_INVERT = [False, True, False, False, False]
 
 ## 👥 Ekip / Team
 
-Bu proje **IEEE TOBB ETÜ Student Branch** bünyesinde geliştirilmiştir.
+Bu proje **IEEE Ege Student Branch** bünyesinde geliştirilmiştir.
 
 ---
 
@@ -505,7 +505,7 @@ Bu proje MIT Lisansı ile lisanslanmıştır. Ayrıntılar için [LICENSE](LICEN
 
 <div align="center">
 
-**IEEE TOBB ETÜ Student Branch** tarafından ❤️ ile yapılmıştır
+**IEEE Ege Student Branch** tarafından ❤️ ile yapılmıştır
 
 *El hareketleri ile biyonik kontrol — Gerçek zamanlı, modüler, açık kaynak*
 
